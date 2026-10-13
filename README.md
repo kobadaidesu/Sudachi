@@ -1,165 +1,87 @@
-# hackathon-project
+<p align="center">
+  <img src="frontend/public/images/logo-sudachi.png" alt="sudachi" width="240">
+</p>
 
-## チーム開発ルール
+<p align="center">
+  <b>気軽に学習を共有し、同じ目標を持つ仲間とつながれる IT特化型SNS</b>
+</p>
 
-- `main` ブランチには直接Pushしない
-- 作業ごとに `feature/〇〇` などの作業用ブランチを作成する
-- 作業完了後はPull Requestを作成する
-- 他のメンバーの作業ファイルを無断で大きく変更しない
-- 作業を始める前に `main` ブランチの最新内容を取り込む
-- `.env` やAPIキーなどの秘密情報はPushしない
-- Pull Requestは原則として1人以上の確認後にマージする
+<p align="center">
+  開発: チームうれし涙
+</p>
 
-## 作業を始める前の手順
+## 概要
 
-まず `main` を最新にします。
+sudachi は、プログラミング初学者向けの IT特化型SNS です。日々の学習内容を気軽に投稿でき、同じ目標を持つ仲間を見つけて一緒に開発を始められます。
 
-```bash
-git switch main
-git pull origin main
-```
+### 背景
 
-次に、作業用のブランチを作ります。
+初学者にとって、Qiita などへの技術記事の投稿やコミュニティへの参加は心理的なハードルが高く、同じ目標を持つ仲間と出会う機会が限られています。sudachi は「完成度の高い記事」ではなく「今日学んだこと」を共有する場にすることで、このハードルを下げることを目指しています。
 
-```bash
-git switch -c feature/login
-```
+## 主な機能
 
-ブランチ名は作業内容に合わせて付けてください。
+### 開発メンバー募集
 
-```text
-feature/〇〇   新機能
-fix/〇〇       バグ修正
-chore/〇〇     設定・環境構築
-docs/〇〇      ドキュメント修正
-```
+チーム開発のメンバー募集を、通常の投稿とは別の専用ページで扱います。
 
-すでにあるブランチで作業を再開するときは、先に `main` を最新にしてから変更を取り込みます。
+- 使用技術・希望する学習段階・初心者歓迎かどうかで、自分に合った募集を探せる
+- 募集者のプロフィールから過去の学習投稿を確認でき、相手がどんなことを学んでいるかを把握したうえで応募できる
+- 気になる募集には「興味あり」を送り、そのまま DM でやりとりを始められる
 
-作業途中の変更が残っている場合は、先にコミットするか `stash` してからブランチを切り替えてください。
+### 相棒キャラクター
 
-```bash
-git switch main
-git pull origin main
-git switch feature/login
-git merge main
-```
+学習を一人で続けるのは難しい、という課題に対する機能です。投稿するたびに経験値がたまり、ユーザーごとの相棒キャラクターが成長していきます。
 
-`stash` した場合は、作業ブランチに戻ってから変更を戻します。
+<p align="center">
+  <img src="frontend/public/images/character-egg.png" alt="たまご" width="96">
+  <img src="frontend/public/images/character-hatching.png" alt="ふ化中" width="96">
+  <img src="frontend/public/images/character-chick.png" alt="ひよこ" width="96">
+  &nbsp;…
+</p>
 
-```bash
-git stash pop
-```
+- 投稿1回につき経験値 +10
+- 経験値が一定量たまると次の段階へ進化する（たまご → ひよこ → …）
+- マイページで現在の段階と、次の進化までに必要な経験値を確認できる
 
-コンフリクトが出たときは、勝手に直さず一度チーム内で確認してください。
+### ナイス（いいね）
 
-## 初回セットアップ
+投稿へのリアクションです。押すとひよこがジャンプしてハートを持ち、♥ と ★ が飛び散るアニメーションが再生されます。
 
-`.env` はPushされないので、クローン後に各自で作ります。
+<p align="center">
+  <img src="frontend/public/images/chick-idle.png" alt="押す前" width="80">
+  &nbsp;→&nbsp;
+  <img src="frontend/public/images/chick-cheer.png" alt="押した直後" width="80">
+  &nbsp;→&nbsp;
+  <img src="frontend/public/images/chick-heart.png" alt="ナイス済み" width="80">
+</p>
 
-```bash
-cd backend
-cp .env.example .env
-cd ../frontend
-cp .env.example .env
-```
+## 画面と使い方
 
-`backend/.env` の `DATABASE_URL` だけは本物の値が必要です。こばだいに連絡してください。
+| 画面 | できること |
+|---|---|
+| タイムライン | みんなの学習投稿を見て、ナイスを送る |
+| 投稿作成 | 学習内容を投稿する（画像は任意）。投稿を終えると相棒キャラクターに経験値が入る |
+| 募集 | 開発メンバーの募集を一覧・作成し、気になる募集に「興味あり」を送る |
+| メッセージ | ユーザー同士で DM をやりとりする |
+| マイページ | 自分の投稿と相棒キャラクターの成長を確認する |
 
-## 開発サーバーの起動
+## 技術スタック
 
-バックエンドを起動します。
+| 領域 | 技術 |
+|---|---|
+| フロントエンド | React / TypeScript / Vite / React Router |
+| バックエンド | FastAPI / SQLAlchemy |
+| 認証・DB・画像ストレージ | Supabase（Auth / PostgreSQL / Storage） |
+| ホスティング | Vercel（フロントエンド）/ Render（バックエンド） |
 
-```bash
-cd backend
-.venv\Scripts\activate
-python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
+## 今後の予定
 
-macOSやLinuxの場合、仮想環境を有効にするコマンドは `source .venv/bin/activate` です。
+- セキュリティの強化
+- 検索機能・コメント機能の拡張
+- App Store でのリリース
 
-**`--host` にはIPアドレスを直接書かないでください。** `--host 0.0.0.0` は「このPCが持っている全アドレスで待ち受ける」という意味で、`localhost` からもスマホ実機からも同じプロセスで届きます。ここを `--host 172.20.10.3` のように決め打ちすると、テザリングを切った瞬間にそのアドレスがPCから消え、`localhost` を含む全リクエストが `ERR_CONNECTION_TIMED_OUT` になります。プロセスは動いているように見えるので原因が分かりにくいです。
+---
 
-別のターミナルでフロントエンドを起動します。
+## 開発者向け
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-`http://localhost:5173` が開けば成功です。5173が埋まっていると5174などになりますが、CORSはポートを問わない設定なのでそのまま動きます。
-
-## スマホ実機で確認する
-
-**`.env` の書き換えは不要です。** 通常どおり両方のサーバーを起動したうえで、以下だけ行います。
-
-1. USBテザリング(iPhone)でPCとスマホを繋ぐ
-2. `ipconfig` でPCに付いたIPアドレスを確認する(テザリング中は `172.20.10.x` になります)
-3. スマホのブラウザで `http://<PCのIP>:5173` を開く
-
-これで動くのは、フロントエンドがAPIを `/api/...` という相対パスで叩いているためです。スマホから見た宛先は `http://<PCのIP>:5173/api/...` になり、Viteが同じPC上の `127.0.0.1:8000` へ中継します(`vite.config.ts` の `server.proxy`)。スマホにPCのIPを教える必要がないので、ケーブルを抜くたびに設定を戻す作業も要りません。
-
-副次的な効果として、スマホからのリクエストも同一オリジン扱いになるためCORSのプリフライトが発生しません。
-
-### 繋がらないときは
-
-- **PCのブラウザでは開けるのにスマホからは開けない** … Windowsファイアウォールが5173番の受信を止めている可能性があります。初回は「Node.js がネットワークへのアクセスを要求しています」というダイアログが出るので、**プライベートネットワーク**にチェックを入れて許可してください。ダイアログを一度拒否している場合は、`Windows セキュリティ` → `ファイアウォールとネットワーク保護` → `アプリにファイアウォール経由の通信を許可する` から Node.js を探して許可し直します。
-- **画面は出るがAPIだけ失敗する** … バックエンドが起動していないか、8000番以外で動いています。ポートを変えた場合は `vite.config.ts` の `target` も合わせてください。
-- `ipconfig` で `172.20.10.x` が出てこない … テザリングが有効になっていません。iPhone側で「インターネット共有」をオンにしてから繋ぎ直してください。
-
-## デプロイ
-
-フロントエンドを **Vercel**、バックエンドを **Render** に置きます。DB・認証・画像は既に稼働している Supabase をそのまま使うので、**Supabase 側の設定変更は不要**です(Confirm email がOFFでメールのリダイレクトを使っておらず、Storageのバケットも公開済みのため)。
-
-ブラウザは画面を Vercel から、APIを Render から直接取得します。画像アップロードが Vercel を経由しないので、サーバーレス特有のリクエストサイズ上限を気にせずに済みます。
-
-```
-ブラウザ ──────────→ Vercel（画面）
-    └──────────────→ Render（API） ──→ Supabase（DB・画像）
-```
-
-### 1. バックエンド(Render)
-
-先にこちらを済ませます。RenderのURLが決まらないとVercel側の設定を入れられないためです。
-
-1. Render で **New → Blueprint** を選び、このリポジトリを指定する
-2. リポジトリ直下の `render.yaml` が読み込まれ、起動コマンドやPythonバージョンは自動で入る
-3. 入力を求められる2つに値を入れる(秘密情報なのでリポジトリには置いていません)
-   - `DATABASE_URL` … `backend/.env` と同じ値
-   - `SUPABASE_SERVICE_KEY` … `backend/.env` と同じ値
-4. デプロイ後、発行された `https://xxx.onrender.com` を控える
-5. `curl https://xxx.onrender.com/api/health` が `{"status":"ok"}` を返せば成功
-
-`region: singapore` が使えないと言われたら、`render.yaml` からその1行を消してください(既定のオレゴンになります)。
-
-### 2. フロントエンド(Vercel)
-
-1. Vercel で **New Project** を選び、このリポジトリを指定する
-2. **Root Directory を `frontend` に設定する**(ここを忘れるとビルドが失敗します)
-3. 環境変数を3つ登録する
-
-   | 名前 | 値 |
-   |---|---|
-   | `VITE_API_BASE_URL` | 手順1で控えた `https://xxx.onrender.com` |
-   | `VITE_SUPABASE_URL` | `frontend/.env.example` と同じ値 |
-   | `VITE_SUPABASE_ANON_KEY` | `frontend/.env.example` と同じ値 |
-
-4. デプロイ
-
-`VITE_API_BASE_URL` を空のままにすると、APIを相対パスで叩いてVercel上の存在しないパスへ行くため、ログイン以外がすべて失敗します。開発時の `vite.config.ts` の proxy は開発サーバー専用で、`vite build` には効きません。
-
-### 動作確認
-
-1. Vercel のURLを開いてログインできる
-2. タイムラインが表示される(CORSと認証が通っている証拠)
-3. **`/recruitments/<id>` を直接開いてリロードしても404にならない**(SPAフォールバックの確認)
-4. 画像付きで投稿できる
-
-### 知っておくべきこと
-
-- **Render の無料プランは15分アクセスが無いとスリープし、復帰に50秒前後かかります。** 発表やデモの直前に一度URLを叩いて起こしておいてください。最初の1回だけ極端に遅く、以降は普通に動きます。
-- **Vercelはコミットごとにプレビュー用の別URLを発行します。** `backend/app/main.py` のCORSは `*.vercel.app` を総当たりで許可しているので、プレビューでもそのまま動きます。URLが確定した後にバックエンドを再デプロイする必要はありません。
-- CORSを絞りたい場合は、同ファイルの `https://[a-z0-9-]+\.vercel\.app` を `https://<プロジェクト名>[a-z0-9-]*\.vercel\.app` に変えてください。現状は他人のVercelサイトからもプリフライトが通りますが、認証はCookieではなくAuthorizationヘッダのBearerトークンなので、トークンを持たない第三者に実害はありません。
-- **独自ドメインを当てる場合は、そのドメインをCORSの正規表現に追加する必要があります**(`*.vercel.app` にマッチしなくなるため)。
-- `backend/requirements.txt` はバージョンを固定してあります。ビルド時に最新版が入って、ローカルでは再現しない失敗を踏むのを防ぐためです。
+セットアップ・開発サーバーの起動・デプロイ手順は [docs/development.md](docs/development.md) にまとめています。
